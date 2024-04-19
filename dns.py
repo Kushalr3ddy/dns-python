@@ -52,6 +52,7 @@ def getflags(flags):
         
 def getquestiondomain(data):
     state =0
+    expected_length = 0
     domainstring =''
     domainparts =[]
     x=0
@@ -119,7 +120,7 @@ def buildquestion(domainname, rectype):
 
 def rectobytes(domainname, rectype, recttl, recval):
     
-    rbytes =b'\xc0\xc0' # some compression shiet
+    rbytes =b'\xc0\x0c' # some compression shiet
     
     if rectype == 'a':
         rbytes = rbytes + bytes([0]) + bytes([1]) # get 0,1 as a list and covert that into bytes
