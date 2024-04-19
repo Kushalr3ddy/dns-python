@@ -11,7 +11,7 @@ ip = "127.0.0.1"
 
 sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
-
+dom =''
 sock.bind((ip,port))
 
 def load_zones():
@@ -165,7 +165,10 @@ def buildresponse(data):
     
     dnsbody = b''
     records, rectype, domainname = getrecs(data[12:])
-    
+    ##
+    global dom
+    dom = '.'.join(domainname) # ignore this , only for printing it below
+    ##
     dnsquestion = buildquestion(domainname,rectype)
     #print(dnsquestion)
     
@@ -173,8 +176,11 @@ def buildresponse(data):
         dnsbody += rectobytes(domainname, rectype, record['ttl'], record['value'])
     
     return dnsheader + dnsquestion + dnsbody
+
 while 1:
+    print("server starting")
     data, addr = sock.recvfrom(512)
+    print(f"request from {addr} for {dom}")
     #print(data)
     r = buildresponse(data)
     sock.sendto(r,addr)
