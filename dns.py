@@ -181,6 +181,8 @@ while 1:
     print("server starting")
     data, addr = sock.recvfrom(512)
     print(f"request from {addr} for {dom}")
+    with open("logfile.txt","a") as logfile:
+        logfile.write(f"request from {addr} for {dom}")
     #print(data)
     r = buildresponse(data)
     sock.sendto(r,addr)
